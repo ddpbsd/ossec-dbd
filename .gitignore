@@ -18,6 +18,9 @@ src/ossec-dbd
 *.swp
 *.swo
 
+# emacs backups
+*~
+
 # patch files
 *.rej
 *.orig
