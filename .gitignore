@@ -1,0 +1,28 @@
+*.so
+*.o
+*.a
+*.dSYM
+.DS_Store
+*.dll
+*.exe
+
+# Compiled programs
+src/ossec-dbd
+
+# Eclipse files
+.cproject
+.project
+.settings/
+
+# temporary vim files
+*.swp
+*.swo
+
+# patch files
+*.rej
+*.orig
+
+# test and coverage files
+*.gcno
+*.gcda
+
