@@ -221,11 +221,11 @@ http://www.ossec.net/main/license/\n"
 #define DEFAULTQPATH    DEFAULTDIR DEFAULTQUEUE
 
 #ifndef WIN32
-#define OSSECCONF       "/etc/ossec.conf"
+#define OSSECCONF       "/etc/dbd.conf"
 #define DEFAULTCPATH    DEFAULTDIR OSSECCONF
 #else
-#define OSSECCONF       "ossec.conf"
-#define DEFAULTCPATH    "ossec.conf"
+#define OSSECCONF       "dbd.conf"
+#define DEFAULTCPATH    "dbd.conf"
 #endif
 
 #ifndef WIN32
