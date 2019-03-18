@@ -7,7 +7,6 @@
  * Foundation.
  */
 
-#include "shared.h"
 #include "dbd.h"
 
 #ifndef ARGV0
@@ -23,40 +22,43 @@ static void help_dbd(void) __attribute__((noreturn));
 static void print_db_info()
 {
 #ifdef MYSQL_DATABASE_ENABLED
-    print_out("    Compiled with MySQL support");
+    printf("    Compiled with MySQL support");
 #endif
 
 #ifdef PGSQL_DATABASE_ENABLED
-    print_out("    Compiled with PostgreSQL support");
+    printf("    Compiled with PostgreSQL support");
 #endif
 
 #if !defined(MYSQL_DATABASE_ENABLED) && !defined(PGSQL_DATABASE_ENABLED)
-    print_out("    Compiled without any database support");
+    printf("    Compiled without any database support");
 #endif
 }
 
 /* Print help statement */
 static void help_dbd()
 {
-    print_header();
-    print_out("  %s: -[Vhdtfv] [-u user] [-g group] [-c config] [-D dir]", ARGV0);
-    print_out("    -V          Version and license message");
-    print_out("    -h          This help message");
-    print_out("    -d          Execute in debug mode. This parameter");
-    print_out("                can be specified multiple times");
-    print_out("                to increase the debug level.");
-    print_out("    -t          Test configuration");
-    print_out("    -f          Run in foreground");
-    print_out("    -u <user>   User to run as (default: %s)", MAILUSER);
-    print_out("    -g <group>  Group to run as (default: %s)", GROUPGLOBAL);
-    print_out("    -c <config> Configuration file to use (default: %s)", DEFAULTCPATH);
-    print_out("    -D <dir>    Directory to chroot into (default: %s)", DEFAULTDIR);
-    print_out(" ");
-    print_out("  Database Support:");
+    //print_header();
+    printf("  %s: -[Vhdtfv] [-u user] [-g group] [-c config] [-D dir]", ARGV0);
+    printf("    -V          Version and license message");
+    printf("    -h          This help message");
+    printf("    -d          Execute in debug mode. This parameter");
+    printf("                can be specified multiple times");
+    printf("                to increase the debug level.");
+    printf("    -t          Test configuration");
+    printf("    -f          Run in foreground");
+    printf("    -u <user>   User to run as (default: %s)", MAILUSER);
+    printf("    -g <group>  Group to run as (default: %s)", GROUPGLOBAL);
+    printf("    -c <config> Configuration file to use (default: %s)", DEFAULTCPATH);
+    printf("    -D <dir>    Directory to chroot into (default: %s)", DEFAULTDIR);
+    printf(" ");
+    printf("  Database Support:");
     print_db_info();
-    print_out(" ");
+    printf(" ");
     exit(1);
 }
+
+
+int dbd_debug = 0;
 
 int main(int argc, char **argv)
 {
@@ -81,7 +83,7 @@ int main(int argc, char **argv)
     while ((c = getopt(argc, argv, "Vdhtfu:g:D:c:")) != -1) {
         switch (c) {
             case 'V':
-                print_version();
+                //print_version();
                 break;
             case 'h':
                 help_dbd();
@@ -126,9 +128,13 @@ int main(int argc, char **argv)
     }
 
     /* Start daemon */
-    debug1(STARTED_MSG, ARGV0);
+    if (dbd_debug > 0) {
+        printf(STARTED_MSG, ARGV0);
+    }
 
     /* Check if the user/group given are valid */
+
+    /* xxx - The usual get user, set user stuff */
     uid = Privsep_GetUser(user);
     gid = Privsep_GetGroup(group);
     if (uid == (uid_t) - 1 || gid == (gid_t) - 1) {
@@ -136,6 +142,7 @@ int main(int argc, char **argv)
     }
 
     /* Read configuration */
+    /* xxx - this should all change. Duck xml */
     if ((c = OS_ReadDBConf(test_config, cfg, &db_config)) < 0) {
         ErrorExit(CONFIG_ERROR, ARGV0, cfg);
     }
@@ -147,18 +154,20 @@ int main(int argc, char **argv)
 
     if (!run_foreground) {
         /* Going on daemon mode */
+        /* xxx - mwahahahahaha */
         nowDaemon();
         goDaemon();
     }
 
     /* Not configured */
     if (c == 0) {
-        verbose("%s: Database not configured. Clean exit.", ARGV0);
+        printf("%s: Database not configured. Clean exit.", ARGV0);
         exit(0);
     }
 
     /* Maybe disable this debug? */
-    debug1("%s: DEBUG: Connecting to '%s', using '%s', '%s', '%s', %d,'%s'.",
+    if (dbd_debug > 0) {
+        printf("%s: DEBUG: Connecting to '%s', using '%s', '%s', '%s', %d,'%s'.",
            ARGV0,
            db_config.host != NULL ? db_config.host : "NoHost",
            db_config.user != NULL ? db_config.user : "NoUser",
@@ -166,6 +175,7 @@ int main(int argc, char **argv)
            db_config.db != NULL ? db_config.db : "NoDB",
            db_config.port,
            db_config.sock != NULL ? db_config.sock : "NoSock");
+    }
 
     /* Set config pointer */
     osdb_setconfig(&db_config);
@@ -193,12 +203,12 @@ int main(int argc, char **argv)
 
     /* If after the maxreconnect attempts, it still didn't work, exit here */
     if (!db_config.conn) {
-        merror(DB_CONFIGERR, ARGV0);
+        printf(DB_CONFIGERR, ARGV0);
         ErrorExit(CONFIG_ERROR, ARGV0, cfg);
     }
 
     /* We must notify that we connected -- easy debugging */
-    verbose("%s: Connected to database '%s' at '%s'.",
+    printf("%s: Connected to database '%s' at '%s'.",
             ARGV0, db_config.db, db_config.host);
 
     /* Privilege separation */
@@ -231,8 +241,10 @@ int main(int argc, char **argv)
     }
 
     /* Basic start up completed */
-    debug1(CHROOT_MSG, ARGV0, dir);
-    debug1(PRIVSEP_MSG, ARGV0, user);
+    if (dbd_debug > 0) {
+        printf(CHROOT_MSG, ARGV0, dir);
+        printf(PRIVSEP_MSG, ARGV0, user);
+    }
 
     /* Signal manipulation */
     StartSIG(ARGV0);
@@ -243,7 +255,7 @@ int main(int argc, char **argv)
     }
 
     /* Start up message */
-    verbose(STARTUP_MSG, ARGV0, (int)getpid());
+    printf(STARTUP_MSG, ARGV0, (int)getpid());
 
     /* The real daemon now */
     OS_DBD(&db_config);
