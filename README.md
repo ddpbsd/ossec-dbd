@@ -12,3 +12,24 @@ it needs to be in the main ossec.conf. The configuration will be simpler
 (I hope).
 
 
+## Build
+
+
+## Configuration
+
+* host - Can be a socket?
+
+* username
+
+* password
+
+* database
+
+* number of reconnection attempts
+
+* OSSEC installation directory
+
+* user to run ossec-dbd
+
+* group to run ossec-dbd
+
