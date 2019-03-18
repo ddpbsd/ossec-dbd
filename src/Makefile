@@ -1,6 +1,6 @@
 DBD_INCLUDES+=-I/usr/local/include -I./headers -I. -I./os_xml -I./os_regex -I./config
 PCRE2_PREFIX := $(shell pcre2-config --prefix 2>/dev/null || echo /usr/local)
-PCRE2_LOCATION := $(PCRE2_PREFIX)/lib
+PCRE2_LOCATION ?= $(PCRE2_PREFIX)/lib
 
 all:
 	make osshared
@@ -57,7 +57,7 @@ osregex:
 	cc $(DBD_INCLUDES) -o os_regex/os_regex_strbreak.o -c os_regex/os_regex_strbreak.c
 
 osmain:
-	cc $(DBD_INCLUDES) -DARGV0=\"ossec-dbd\" -L/usr/local/lib -lpcre2-8 -o ossec-dbd *.c shared/*.o config/*.o os_xml/*.o os_regex/*.o
+	cc $(DBD_INCLUDES) $(DBD_DEFINES) -DARGV0=\"ossec-dbd\" -L/usr/local/lib -lpcre2-8 -o ossec-dbd *.c shared/*.o config/*.o os_xml/*.o os_regex/*.o
 
 clean:
 	rm -f shared/*.o ./*.o config/*.o os_regex/*.o os_xml/*.o
