@@ -155,7 +155,6 @@ extern const char *__local_name;
 
 #include "debug_op.h"
 #include "file_op.h"
-#include "list_op.h"
 #include "mem_op.h"
 #include "privsep_op.h"
 #include "sig_op.h"

@@ -12,6 +12,7 @@
 #ifndef _OS_RULESOP_H
 #define _OS_RULESOP_H
 
+#include "list_op.h"
 #include "shared.h"
 
 /* Event context - stored in a uint8 */

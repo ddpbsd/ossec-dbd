@@ -1,7 +1,13 @@
-DBD_INCLUDES+=-I/usr/local/include -I./headers -I. -I./os_xml -I./os_regex
+DBD_INCLUDES+=-I/usr/local/include -I./headers -I. -I./os_xml -I./os_regex -I./config
+PCRE2_PREFIX := $(shell pcre2-config --prefix 2>/dev/null || echo /usr/local)
+PCRE2_LOCATION := $(PCRE2_PREFIX)/lib
 
 all:
 	make osshared
+	make osxml
+	make osconfig
+	make osregex
+	make osmain
 
 osshared:
 	cc $(DBD_INCLUDES) -o shared/debug_op.o -c shared/debug_op.c
@@ -13,14 +19,48 @@ osshared:
 	cc $(DBD_INCLUDES) -o shared/privsep_op.o -c shared/privsep_op.c
 	cc $(DBD_INCLUDES) -o shared/sig_op.o -c shared/sig_op.c
 	cc $(DBD_INCLUDES) -o shared/validate_op.o -c shared/validate_op.c
+	cc $(DBD_INCLUDES) -o shared/read-alert.o -c shared/read-alert.c
+	cc $(DBD_INCLUDES) -o shared/list_op.o -c shared/list_op.c
+	cc $(DBD_INCLUDES) -o shared/rules_op.o -c shared/rules_op.c
+
+osxml:
+	cc $(DBD_INCLUDES) -o os_xml/os_xml.o -c os_xml/os_xml.c
+	cc $(DBD_INCLUDES) -o os_xml/os_xml_access.o -c os_xml/os_xml_access.c
+	cc $(DBD_INCLUDES) -o os_xml/os_xml_node_access.o -c os_xml/os_xml_node_access.c
+	cc $(DBD_INCLUDES) -o os_xml/os_xml_variables.o -c os_xml/os_xml_variables.c
+	cc $(DBD_INCLUDES) -o os_xml/os_xml_writer.o -c os_xml/os_xml_writer.c
 
 osconfig:
 	cc $(DBD_INCLUDES) -o config/dbd-config.o -c config/dbd-config.c
-	cc $(DBD_INCLUDES) -o config/global-config.o -c config/global-config.c
+	cc $(DBD_INCLUDES) -o config/config.o -c config/config.c
+
+osregex:
+	cc $(DBD_INCLUDES)-lpcre2 -o os_regex/os_converter.o -c os_regex/os_converter.c
+	cc $(DBD_INCLUDES) -o os_regex/os_match.o -c os_regex/os_match.c
+	cc $(DBD_INCLUDES) -o os_regex/os_match_compile.o -c os_regex/os_match_compile.c
+	cc $(DBD_INCLUDES) -o os_regex/os_match_execute.o -c os_regex/os_match_execute.c
+	cc $(DBD_INCLUDES) -o os_regex/os_match_free_pattern.o -c os_regex/os_match_free_pattern.c
+	cc $(DBD_INCLUDES) -o os_regex/os_pcre2.o -c os_regex/os_pcre2.c
+	cc $(DBD_INCLUDES) -o os_regex/os_pcre2_compile.o -c os_regex/os_pcre2_compile.c
+	cc $(DBD_INCLUDES) -o os_regex/os_pcre2_execute.o -c os_regex/os_pcre2_execute.c
+	cc $(DBD_INCLUDES) -o os_regex/os_pcre2_free_pattern.o -c os_regex/os_pcre2_free_pattern.c
+	cc $(DBD_INCLUDES) -o os_regex/os_pcre2_free_substrings.o -c os_regex/os_pcre2_free_substrings.c
+	cc $(DBD_INCLUDES) -o os_regex/os_regex.o -c os_regex/os_regex.c
+	cc $(DBD_INCLUDES) -o os_regex/os_regex_compile.o -c os_regex/os_regex_compile.c
+	cc $(DBD_INCLUDES) -o os_regex/os_regex_execute.o -c os_regex/os_regex_execute.c
+	cc $(DBD_INCLUDES) -o os_regex/os_regex_free_pattern.o -c os_regex/os_regex_free_pattern.c
+	cc $(DBD_INCLUDES) -o os_regex/os_regex_free_substrings.o -c os_regex/os_regex_free_substrings.c
+	cc $(DBD_INCLUDES) -o os_regex/os_regex_maps.o -c os_regex/os_regex_maps.c
+	cc $(DBD_INCLUDES) -o os_regex/os_regex_match.o -c os_regex/os_regex_match.c
+	cc $(DBD_INCLUDES) -o os_regex/os_regex_startswith.o -c os_regex/os_regex_startswith.c
+	cc $(DBD_INCLUDES) -o os_regex/os_regex_str.o -c os_regex/os_regex_str.c
+	cc $(DBD_INCLUDES) -o os_regex/os_regex_strbreak.o -c os_regex/os_regex_strbreak.c
 
 osmain:
-	cc $(DBD_INCLUDES) -DARGV0=\"ossec-dbd\" -o ossec-dbd *.c shared/*.o
+	cc $(DBD_INCLUDES) -DARGV0=\"ossec-dbd\" -L/usr/local/lib -lpcre2-8 -o ossec-dbd *.c shared/*.o config/*.o os_xml/*.o os_regex/*.o
 
 clean:
-	rm shared/*.o ./*.o config/*.o
+	rm -f shared/*.o ./*.o config/*.o os_regex/*.o os_xml/*.o
+
+
 
