@@ -31,6 +31,10 @@ int Read_DB(XML_NODE node, __attribute__((unused)) void *config1, void *config2)
         return (0);
     }
 
+    if (!node) {
+        ErrorExit("No node");
+    }
+
     /* Read the xml */
     while (node[i]) {
         if (!node[i]->element) {

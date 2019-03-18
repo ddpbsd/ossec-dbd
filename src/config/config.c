@@ -36,6 +36,9 @@ static int read_main_elements(const OS_XML *xml, int modules,
         if (!node[i]->element) {
             merror(XML_ELEMNULL, __local_name);
             goto fail;
+        } else if (!(chld_node = OS_GetElementsbyNode(xml, node[i]))) {
+            merror(XML_INVELEM, __local_name, node[i]->element);
+            goto fail;
         } else if (strcmp(node[i]->element, osdbd) == 0) {
             if ((modules & CDBD) && (Read_DB(chld_node, d1, d2) < 0)) {
                 goto fail;
