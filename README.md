@@ -14,6 +14,8 @@ it needs to be in the main ossec.conf. The configuration will be simpler
 
 ## Build
 
+`env DBD_DEFINES=-DPGSQL_DATABASE_ENABLED make`
+`env DBD_DEFINES=-DMYSQL_DATABASE_ENABLED make`
 
 ## Configuration
 
