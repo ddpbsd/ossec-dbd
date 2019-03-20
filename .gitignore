@@ -6,6 +6,9 @@
 *.dll
 *.exe
 
+# I'm not a good programmer.
+*.core
+
 # Compiled programs
 src/ossec-dbd
 
