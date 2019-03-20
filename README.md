@@ -36,3 +36,13 @@ it needs to be in the main ossec.conf. The configuration will be simpler
 
 * group to run ossec-dbd
 
+
+## To do
+
+Figure out the build infrastructure. Do we need something like auto tools?
+I'd rather not, but if that's easier than figuring out the rest, I guess it's okay.
+
+Test MySQL.
+
+Monitor for crashes.
+
