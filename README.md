@@ -39,10 +39,15 @@ it needs to be in the main ossec.conf. The configuration will be simpler
 
 ## To do
 
+### 0.1
+
 Figure out the build infrastructure. Do we need something like auto tools?
 I'd rather not, but if that's easier than figuring out the rest, I guess it's okay.
+Hack-ish Makefile stuff might be ok at this point.
 
 Test MySQL.
 
 Monitor for crashes.
+
+Test on Linux.
 
