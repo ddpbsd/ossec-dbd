@@ -17,34 +17,23 @@ Then it will run `make -f Makefile.build` to actually make `ossec-dbd`
 
 ## Configuration
 
-* host - Can be a socket?
-
-* username
-
-* password
-
-* database
-
-* number of reconnection attempts
-
-* OSSEC installation directory
-
-* user to run ossec-dbd
-
-* group to run ossec-dbd
-
+This still goes in `ossec/etc/ossec.conf` for now.
 
 ## To do
 
 ### 0.1
 
-Figure out the build infrastructure. Do we need something like auto tools?
-I'd rather not, but if that's easier than figuring out the rest, I guess it's okay.
-Hack-ish Makefile stuff might be ok at this point.
+- Test MySQL.
 
-Test MySQL.
+- Monitor for crashes.
 
-Monitor for crashes.
+- Test on Linux.
 
-Test on Linux.
+### Post 0.1
+
+- Add agent info into the db.
+
+- Add rules into the db?
+
+- Maybe have someone that knows something about DBs look at how we do things.
 
