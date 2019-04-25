@@ -1,22 +1,19 @@
 # ossec-dbd
 
 
-ossec-dbd has been a part of OSSEC for a long time. It's old and crufty,
+`ossec-dbd` has been a part of OSSEC for a long time. It's old and crufty,
 and I'm not sure if it actually works.
 
 So I want it gone, and putting it in its own location seems okay. Maybe 
 it can get some love here.
 
-The configuration is going to change. I'm tired of xml, and I don't think
-it needs to be in the main ossec.conf. The configuration will be simpler
-(I hope).
-
 
 ## Build
 
-`env DBD_DEFINES=-DPGSQL_DATABASE_ENABLED DBD_INCLUDES="-I/usr/local/include/postgresql -L/usr/local/lib/postgresql -lpq" make`
+`make postgresql` or `make mysql`
 
-`env DBD_DEFINES=-DMYSQL_DATABASE_ENABLED make`
+The Makefile will run either `util/pg.sh` or `util/mysql.sh` to populate `Makefile.inc`.
+Then it will run `make -f Makefile.build` to actually make `ossec-dbd`
 
 ## Configuration
 
