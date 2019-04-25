@@ -32,3 +32,6 @@ src/ossec-dbd
 *.gcno
 *.gcda
 
+# Temporary files
+Makefile.inc
+Makefile.inc.backup
