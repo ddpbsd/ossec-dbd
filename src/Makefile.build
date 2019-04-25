@@ -1,11 +1,11 @@
-.include "Makefile.inc"
+include Makefile.inc
 
 all:
-	make -f ${MAKEFILE} osshared
-	make -f ${MAKEFILE} osxml
-	make -f ${MAKEFILE} osconfig
-	make -f ${MAKEFILE} osregex
-	make -f ${MAKEFILE} osmain
+	make -f Makefile.build osshared
+	make -f Makefile.build osxml
+	make -f Makefile.build osconfig
+	make -f Makefile.build osregex
+	make -f Makefile.build osmain
 
 osshared:
 	cc $(DBD_INCLUDES) -o shared/debug_op.o -c shared/debug_op.c
