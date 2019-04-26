@@ -3,8 +3,6 @@
 INC=$(mysql_config --include)
 LIB=$(mysql_config --libs)
 
-echo "PG_INCLUDES=-I${INC}" >> Makefile.inc
-echo "PG_LIB=-L${LIB}" >> Makefile.inc
 echo "DBD_DEFINES+=-DMYSQL_DATABASE_ENABLED" >> Makefile.inc
 
 echo "DBD_INCLUDES:=-I./headers -I. -I./os_xml -I./os_regex -I./config ${INC}" >> Makefile.inc
