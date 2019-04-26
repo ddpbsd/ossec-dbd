@@ -1,12 +1,20 @@
 language: c
+dist: xenial
 compiler:
   - clang
   - gcc
 
+env:
+- BUILD_TYPE=postgresql
+- BUILD_TYPE=mysql
+
 before_script:
 - sudo apt-get update -qq
-- sudo apt-get install build-essential make libpq-dev libmysqlclient-dev libpcre2-dev 
+- sudo apt-get install build-essential make libpcre2-dev 
+- if [[ "${BUILD_TYPE}" == "postgresql"  ]]; then ( sudo apt-get install libpq-dev ); fi
+- if [[ "${BUILD_TYPE}" == "mysql"  ]]; then ( sudo apt-get install libmysqlclient-dev ); fi
 
 script:
-- (cd src && make postgresl)
+- if [[ "${BUILD_TYPE}" == "postgresql"  ]]; then (cd src && make postgresl); fi
+- if [[ "${BUILD_TYPE}" == "mysql"  ]]; then (cd src && make mysql); fi
 
