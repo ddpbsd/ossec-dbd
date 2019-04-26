@@ -1,9 +1,11 @@
 
 postgresql:
+	/bin/sh ./util/pcre2.sh
 	/bin/sh ./util/pg.sh
 	make -f Makefile.build
 
 mysql:
+	/bin/sh ./util/pcre2.sh
 	/bin/sh ./util/mysql.sh
 	make -f Makefile.build
 
