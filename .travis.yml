@@ -15,6 +15,6 @@ before_script:
 - if [[ "${BUILD_TYPE}" == "mysql"  ]]; then ( sudo apt-get install libmysqlclient-dev ); fi
 
 script:
-- if [[ "${BUILD_TYPE}" == "postgresql"  ]]; then (cd src && make postgresl); fi
+- if [[ "${BUILD_TYPE}" == "postgresql"  ]]; then (cd src && make postgresql); fi
 - if [[ "${BUILD_TYPE}" == "mysql"  ]]; then (cd src && make mysql); fi
 
