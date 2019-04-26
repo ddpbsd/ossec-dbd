@@ -18,7 +18,10 @@ echo "DBD_DEFINES+=-DPGSQL_DATABASE_ENABLED" >> Makefile.inc
 
 echo "PCRE2_PREFIX=${PCRE2_PRE}" >> Makefile.inc
 echo "PCRE2_LOCATION=${PCRE2_LOC}" >> Makefile.inc
+echo "PCRE2_LIB=-L${PCRE2_LOC} -lpcre2-8" >> Makefile.inc
+echo "PCRE2_INCLUDES=-I${PCRE2_LOC}" >> Makefile.inc
 
 echo "DBD_INCLUDES:=-I./headers -I. -I./os_xml -I./os_regex -I./config -I${PCRE2_LOC} -I${INC}" >> Makefile.inc
-echo "DBD_INCLUDES_EXTRA:=-L${LIB} -lpq" >> Makefile.inc
+echo "DBD_LIB:=-L${LIB}" >> Makefile.inc
+echo "LIB_END:=-lpq -lpcre2-8" >> Makefile.inc
 
