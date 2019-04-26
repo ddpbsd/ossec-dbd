@@ -1,0 +1,12 @@
+language: c
+compiler:
+  - clang
+  - gcc
+
+before_script:
+- sudo apt-get update -qq
+- sudo apt-get install build-essential make libpq-dev libmysqlclient-dev libpcre2-dev 
+
+script:
+- (cd src && make postgresl)
+
