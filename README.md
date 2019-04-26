@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.com/ddpbsd/ossec-dbd.svg?branch=master)](https://travis-ci.com/ddpbsd/ossec-dbd)
+
 # ossec-dbd
 
 
