@@ -269,7 +269,7 @@ void *postgresql_osdb_connect(const char *host, const char *user, const char *pa
     if (port > 0) {
         snprintf(portAsString, 6, "%u", port);
     } else {
-        snprintf(portAsString, 6, "");
+        snprintf(portAsString, 6, "%s", "");
     }
 
     conn = PQsetdbLogin(host, portAsString, NULL, NULL, db, user, pass);
