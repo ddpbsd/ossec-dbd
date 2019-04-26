@@ -30,8 +30,6 @@ This still goes in `ossec/etc/ossec.conf` for now.
 
 - Monitor for crashes.
 
-- Test on Linux.
-
 ### Post 0.1
 
 - Add agent info into the db.
