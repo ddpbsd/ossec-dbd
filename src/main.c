@@ -39,21 +39,36 @@ static void help_dbd()
 {
     //print_header();
     printf("  %s: -[Vhdtfv] [-u user] [-g group] [-c config] [-D dir]", ARGV0);
+    printf("\n");
     printf("    -V          Version and license message");
+    printf("\n");
     printf("    -h          This help message");
+    printf("\n");
     printf("    -d          Execute in debug mode. This parameter");
+    printf("\n");
     printf("                can be specified multiple times");
+    printf("\n");
     printf("                to increase the debug level.");
+    printf("\n");
     printf("    -t          Test configuration");
+    printf("\n");
     printf("    -f          Run in foreground");
+    printf("\n");
     printf("    -u <user>   User to run as (default: %s)", MAILUSER);
+    printf("\n");
     printf("    -g <group>  Group to run as (default: %s)", GROUPGLOBAL);
+    printf("\n");
     printf("    -c <config> Configuration file to use (default: %s)", DEFAULTCPATH);
+    printf("\n");
     printf("    -D <dir>    Directory to chroot into (default: %s)", DEFAULTDIR);
+    printf("\n");
     printf(" ");
+    printf("\n");
     printf("  Database Support:");
+    printf("\n");
     print_db_info();
     printf(" ");
+    printf("\n");
     exit(1);
 }
 
